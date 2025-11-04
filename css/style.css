@@ -462,10 +462,10 @@ input.search-input:focus {
 /* Markdown 内容样式 - 小清新护眼 */
 .article-content {
     font-family: 'Noto Serif SC', Georgia, serif;
-    font-size: 15px;
-    line-height: 1.9;
+    font-size: 14px;
+    line-height: 1.8;
     color: #c8d8e8;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .article-content h1,
@@ -474,15 +474,15 @@ input.search-input:focus {
 .article-content h4 {
     font-family: 'Noto Serif SC', serif;
     color: #e8f4ff;
-    margin-top: 2em;
-    margin-bottom: 0.8em;
+    margin-top: 1.8em;
+    margin-bottom: 0.7em;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .article-content h1 {
-    font-size: 24px;
-    padding-bottom: 0.5em;
+    font-size: 22px;
+    padding-bottom: 0.4em;
     border-bottom: 2px solid rgba(168, 218, 255, 0.25);
     background: linear-gradient(120deg, #e8f4ff, #b5e7ff);
     -webkit-background-clip: text;
@@ -491,35 +491,35 @@ input.search-input:focus {
 }
 
 .article-content h2 {
-    font-size: 20px;
-    padding-left: 14px;
-    border-left: 4px solid #ffb3d9;
+    font-size: 19px;
+    padding-left: 12px;
+    border-left: 3px solid #ffb3d9;
     color: #ffd6ec;
 }
 
 .article-content h3 {
-    font-size: 18px;
+    font-size: 17px;
     color: #b5e7ff;
 }
 
 .article-content h4 {
-    font-size: 16px;
+    font-size: 15px;
     color: #c9e5ff;
 }
 
 .article-content p {
-    margin: 1.5em 0;
+    margin: 1.2em 0;
     text-indent: 2em;
     color: #c8d8e8;
 }
 
 /* 引用块 - 温柔渐变 */
 .article-content blockquote {
-    margin: 2em 0;
-    padding: 1.5em 2em;
+    margin: 1.5em 0;
+    padding: 1.2em 1.6em;
     background: linear-gradient(135deg, rgba(181, 231, 255, 0.08), rgba(255, 179, 217, 0.08));
-    border-left: 4px solid #ffb3d9;
-    border-radius: 0 16px 16px 0;
+    border-left: 3px solid #ffb3d9;
+    border-radius: 0 14px 14px 0;
     color: #b8cedf;
     font-style: italic;
     position: relative;
@@ -529,9 +529,9 @@ input.search-input:focus {
 .article-content blockquote::before {
     content: '"';
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 48px;
+    top: 8px;
+    left: 8px;
+    font-size: 40px;
     color: rgba(255, 179, 217, 0.2);
     font-family: Georgia, serif;
     line-height: 1;
@@ -558,10 +558,10 @@ input.search-input:focus {
 
 /* 代码块 - 柔和深色 */
 .article-content pre {
-    margin: 2em 0;
-    padding: 2em;
+    margin: 1.5em 0;
+    padding: 1.5em;
     background: linear-gradient(135deg, #0e1419, #12171d);
-    border-radius: 16px;
+    border-radius: 14px;
     overflow-x: auto;
     border: 1px solid rgba(181, 231, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
@@ -575,12 +575,12 @@ input.search-input:focus {
     top: 0;
     left: 0;
     right: 0;
-    height: 35px;
+    height: 30px;
     background: linear-gradient(90deg,
     rgba(255, 179, 217, 0.1) 0%,
     rgba(181, 231, 255, 0.1) 50%,
     rgba(255, 179, 217, 0.1) 100%);
-    border-radius: 16px 16px 0 0;
+    border-radius: 14px 14px 0 0;
     border-bottom: 1px solid rgba(181, 231, 255, 0.1);
 }
 
@@ -589,23 +589,23 @@ input.search-input:focus {
     padding: 0;
     border: none;
     color: #d4e4f5;
-    font-size: 13px;
-    line-height: 1.7;
+    font-size: 12px;
+    line-height: 1.6;
     display: block;
-    margin-top: 35px;
+    margin-top: 30px;
     box-shadow: none;
 }
 
 /* 列表样式 */
 .article-content ul,
 .article-content ol {
-    margin: 1.5em 0;
-    padding-left: 2.5em;
+    margin: 1.2em 0;
+    padding-left: 2em;
 }
 
 .article-content li {
-    margin: 1em 0;
-    line-height: 1.9;
+    margin: 0.7em 0;
+    line-height: 1.7;
     color: #c8d8e8;
 }
 
@@ -660,12 +660,12 @@ input.search-input:focus {
 .article-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 16px;
-    margin: 2.5em auto;
+    border-radius: 14px;
+    margin: 2em auto;
     display: block;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(181, 231, 255, 0.1);
-    border: 3px solid rgba(181, 231, 255, 0.15);
+    border: 2px solid rgba(181, 231, 255, 0.15);
     transition: all 0.4s ease;
 }
 
@@ -678,9 +678,9 @@ input.search-input:focus {
 
 /* 分隔线 - 渐变装饰 */
 .article-content hr {
-    margin: 3.5em 0;
+    margin: 2.5em 0;
     border: none;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg,
     transparent,
     rgba(181, 231, 255, 0.3) 20%,
@@ -697,27 +697,28 @@ input.search-input:focus {
     top: 50%;
     transform: translate(-50%, -50%);
     background: #0f1724;
-    padding: 0 15px;
+    padding: 0 12px;
     color: #ffb3d9;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* 表格 - 清新配色 */
 .article-content table {
     width: 100%;
-    margin: 2.5em 0;
+    margin: 2em 0;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .article-content th,
 .article-content td {
-    padding: 14px 20px;
+    padding: 10px 16px;
     text-align: left;
     border-bottom: 1px solid rgba(181, 231, 255, 0.1);
+    font-size: 14px;
 }
 
 .article-content th {
@@ -794,21 +795,22 @@ input.search-input:focus {
 
 /* 细节/摘要 */
 .article-content details {
-    margin: 1.5em 0;
-    padding: 1em 1.5em;
+    margin: 1.2em 0;
+    padding: 0.8em 1.2em;
     background: rgba(181, 231, 255, 0.05);
     border: 1px solid rgba(181, 231, 255, 0.15);
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .article-content summary {
     cursor: pointer;
     color: #b5e7ff;
     font-weight: 600;
-    margin: -1em -1.5em 1em;
-    padding: 1em 1.5em;
-    border-radius: 12px 12px 0 0;
+    margin: -0.8em -1.2em 0.8em;
+    padding: 0.8em 1.2em;
+    border-radius: 10px 10px 0 0;
     transition: all 0.3s ease;
+    font-size: 14px;
 }
 
 .article-content summary:hover {
@@ -818,7 +820,7 @@ input.search-input:focus {
 
 .article-content details[open] summary {
     border-bottom: 1px solid rgba(181, 231, 255, 0.15);
-    margin-bottom: 1em;
+    margin-bottom: 0.8em;
 }
 
 /* 页脚 */
