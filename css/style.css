@@ -456,80 +456,89 @@ input.search-input:focus {
     margin: 24px 0;
 }
 
-/* Markdown 内容样式 - 小清新护眼 */
+/* ==================== Markdown 内容样式 - 小清新护眼 ==================== */
+
+/* 正文基础样式 - 14px/柔和蓝灰色 */
 .article-content {
     font-family: 'Noto Serif SC', Georgia, serif;
-    font-size: 14px;
-    line-height: 1.75;
-    color: #c8d8e8;
-    letter-spacing: 0.1px;
+    font-size: 14px; /* 正文字号 */
+    line-height: 1.75; /* 行高 */
+    color: #c8d8e8; /* 正文颜色：柔和蓝灰 */
+    letter-spacing: 0.1px; /* 字间距 */
 }
 
+/* 标题通用样式 */
 .article-content h1,
 .article-content h2,
 .article-content h3,
 .article-content h4 {
     font-family: 'Noto Serif SC', serif;
-    color: #e8f4ff;
+    color: #e8f4ff; /* 标题颜色：浅蓝白 */
     margin-top: 1.8em;
     margin-bottom: 0.7em;
     font-weight: 600;
     line-height: 1.4;
 }
 
+/* H1 标题 - 22px/渐变色/底部装饰线 */
 .article-content h1 {
     font-size: 22px;
     padding-bottom: 0.4em;
-    border-bottom: 2px solid rgba(168, 218, 255, 0.25);
-    background: linear-gradient(120deg, #e8f4ff, #b5e7ff);
+    border-bottom: 2px solid rgba(168, 218, 255, 0.25); /* 浅蓝底边框 */
+    background: linear-gradient(120deg, #e8f4ff, #b5e7ff); /* 蓝白渐变 */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
+/* H2 标题 - 19px/粉色左边框 */
 .article-content h2 {
     font-size: 19px;
     padding-left: 12px;
-    border-left: 3px solid #ffb3d9;
-    color: #ffd6ec;
+    border-left: 3px solid #ffb3d9; /* 粉色左边框 */
+    color: #ffd6ec; /* 浅粉色 */
 }
 
+/* H3 标题 - 17px/浅蓝色 */
 .article-content h3 {
     font-size: 17px;
-    color: #b5e7ff;
+    color: #b5e7ff; /* 浅蓝色 */
 }
 
+/* H4 标题 - 15px/淡蓝色 */
 .article-content h4 {
     font-size: 15px;
-    color: #c9e5ff;
+    color: #c9e5ff; /* 淡蓝色 */
 }
 
+/* 段落样式 - 首行缩进 */
 .article-content p {
     margin: 1.2em 0;
-    text-indent: 2em;
-    color: #c8d8e8;
+    text-indent: 2em; /* 首行缩进2字符 */
+    color: #c8d8e8; /* 柔和蓝灰色 */
 }
 
-/* 引用块 - 温柔渐变 */
+/* 引用块样式 - 粉蓝渐变背景/装饰引号 */
 .article-content blockquote {
     margin: 1.5em 0;
     padding: 1.2em 1.6em;
-    background: linear-gradient(135deg, rgba(181, 231, 255, 0.08), rgba(255, 179, 217, 0.08));
-    border-left: 3px solid #ffb3d9;
+    background: linear-gradient(135deg, rgba(181, 231, 255, 0.08), rgba(255, 179, 217, 0.08)); /* 粉蓝渐变 */
+    border-left: 3px solid #ffb3d9; /* 粉色左边框 */
     border-radius: 0 14px 14px 0;
-    color: #b8cedf;
+    color: #b8cedf; /* 柔和蓝灰色 */
     font-style: italic;
     position: relative;
     box-shadow: 0 2px 15px rgba(255, 179, 217, 0.1);
 }
 
+/* 引用块装饰引号 - 左上角淡粉色大引号 */
 .article-content blockquote::before {
     content: '"';
     position: absolute;
     top: 8px;
     left: 8px;
     font-size: 40px;
-    color: rgba(255, 179, 217, 0.2);
+    color: rgba(255, 179, 217, 0.2); /* 淡粉色半透明 */
     font-family: Georgia, serif;
     line-height: 1;
 }
@@ -541,23 +550,23 @@ input.search-input:focus {
     z-index: 1;
 }
 
-/* 行内代码 - 小清新 */
+/* 行内代码样式 - 浅蓝背景/蓝色文字 */
 .article-content code {
     font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-    background: linear-gradient(135deg, rgba(181, 231, 255, 0.12), rgba(201, 229, 255, 0.08));
+    background: linear-gradient(135deg, rgba(181, 231, 255, 0.12), rgba(201, 229, 255, 0.08)); /* 浅蓝渐变 */
     padding: 3px 8px;
     border-radius: 6px;
     font-size: 0.88em;
-    color: #a8d5ff;
+    color: #a8d5ff; /* 柔和浅蓝色 */
     border: 1px solid rgba(181, 231, 255, 0.2);
     box-shadow: 0 2px 8px rgba(181, 231, 255, 0.08);
 }
 
-/* 代码块 - 柔和深色 */
+/* 代码块样式 - 深色背景/顶部装饰条 */
 .article-content pre {
     margin: 1.5em 0;
     padding: 1.5em;
-    background: linear-gradient(135deg, #0e1419, #12171d);
+    background: linear-gradient(135deg, #0e1419, #12171d); /* 深蓝灰渐变 */
     border-radius: 14px;
     overflow-x: auto;
     border: 1px solid rgba(181, 231, 255, 0.15);
@@ -566,6 +575,7 @@ input.search-input:focus {
     position: relative;
 }
 
+/* 代码块顶部装饰条 - 粉蓝渐变 */
 .article-content pre::before {
     content: '';
     position: absolute;
@@ -576,17 +586,18 @@ input.search-input:focus {
     background: linear-gradient(90deg,
     rgba(255, 179, 217, 0.1) 0%,
     rgba(181, 231, 255, 0.1) 50%,
-    rgba(255, 179, 217, 0.1) 100%);
+    rgba(255, 179, 217, 0.1) 100%); /* 粉蓝渐变装饰 */
     border-radius: 14px 14px 0 0;
     border-bottom: 1px solid rgba(181, 231, 255, 0.1);
 }
 
+/* 代码块内代码样式 - 12px/浅蓝白色 */
 .article-content pre code {
     background: none;
     padding: 0;
     border: none;
-    color: #d4e4f5;
-    font-size: 12px;
+    color: #d4e4f5; /* 浅蓝白色 */
+    font-size: 12px; /* 代码字号 */
     line-height: 1.6;
     display: block;
     margin-top: 30px;
@@ -603,25 +614,27 @@ input.search-input:focus {
 .article-content li {
     margin: 0.7em 0;
     line-height: 1.7;
-    color: #c8d8e8;
+    color: #c8d8e8; /* 柔和蓝灰色 */
 }
 
+/* 无序列表标记 - 粉色圆点 */
 .article-content ul li::marker {
-    color: #ffb3d9;
+    color: #ffb3d9; /* 粉色 */
     font-size: 1.2em;
 }
 
+/* 有序列表数字 - 柔和浅蓝色 */
 .article-content ol li::marker {
-    color: #a8d5ff;
+    color: #a8d5ff; /* 柔和浅蓝色（避免纯白） */
 }
 
-/* 嵌套列表 */
+/* 嵌套列表间距 */
 .article-content li > ul,
 .article-content li > ol {
     margin: 0.5em 0;
 }
 
-/* 链接 - 小清新渐变 */
+/* 链接样式 - 渐变下划线/带小箭头 */
 .article-content a {
     color: #5da4f4;
     text-decoration: none;
@@ -635,10 +648,11 @@ input.search-input:focus {
 }
 
 .article-content a:hover {
-    color: #ffc9e6;
+    color: #ffc9e6; /* 悬停：浅粉色 */
     background-position: 0% 100%;
 }
 
+/* 链接后小箭头 */
 .article-content a::after {
     content: '↗';
     font-size: 0.8em;
@@ -652,7 +666,7 @@ input.search-input:focus {
     transform: translate(2px, -2px);
 }
 
-/* 图片 - 温柔边框 */
+/* 图片样式 - 圆角/浅蓝边框/悬停效果 */
 .article-content img {
     max-width: 100%;
     height: auto;
@@ -661,7 +675,7 @@ input.search-input:focus {
     display: block;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(181, 231, 255, 0.1);
-    border: 2px solid rgba(181, 231, 255, 0.15);
+    border: 2px solid rgba(181, 231, 255, 0.15); /* 浅蓝边框 */
     transition: all 0.4s ease;
 }
 
@@ -669,10 +683,10 @@ input.search-input:focus {
     transform: translateY(-5px);
     box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(255, 179, 217, 0.2);
-    border-color: rgba(255, 179, 217, 0.25);
+    border-color: rgba(255, 179, 217, 0.25); /* 悬停：粉色边框 */
 }
 
-/* 分隔线 - 渐变装饰 */
+/* 分隔线 - 渐变线条/中间装饰星星 */
 .article-content hr {
     margin: 2.5em 0;
     border: none;
@@ -680,12 +694,12 @@ input.search-input:focus {
     background: linear-gradient(90deg,
     transparent,
     rgba(181, 231, 255, 0.3) 20%,
-    rgba(255, 179, 217, 0.3) 50%,
-    rgba(181, 231, 255, 0.3) 80%,
+    rgba(255, 179, 217, 0.3) 50%, /* 蓝→粉→蓝渐变 */ rgba(181, 231, 255, 0.3) 80%,
     transparent);
     position: relative;
 }
 
+/* 分隔线中间装饰星星 */
 .article-content hr::after {
     content: '✦';
     position: absolute;
@@ -694,11 +708,11 @@ input.search-input:focus {
     transform: translate(-50%, -50%);
     background: #0f1724;
     padding: 0 12px;
-    color: #ffb3d9;
+    color: #ffb3d9; /* 粉色星星 */
     font-size: 14px;
 }
 
-/* 表格 - 清新配色 */
+/* 表格样式 - 清新配色/浅蓝表头 */
 .article-content table {
     width: 100%;
     margin: 2em 0;
@@ -717,63 +731,66 @@ input.search-input:focus {
     font-size: 14px;
 }
 
+/* 表头 - 粉蓝渐变背景/浅蓝文字 */
 .article-content th {
     background: linear-gradient(135deg, rgba(181, 231, 255, 0.12), rgba(255, 179, 217, 0.08));
-    color: #b5e7ff;
+    color: #b5e7ff; /* 浅蓝色 */
     font-weight: 600;
     border-bottom: 2px solid rgba(181, 231, 255, 0.2);
 }
 
+/* 表格单元格 - 半透明背景/柔和蓝灰色文字 */
 .article-content td {
     background: rgba(255, 255, 255, 0.02);
-    color: #c8d8e8;
+    color: #c8d8e8; /* 柔和蓝灰色 */
 }
 
 .article-content tr:hover td {
-    background: rgba(181, 231, 255, 0.04);
+    background: rgba(181, 231, 255, 0.04); /* 悬停高亮 */
 }
 
 .article-content tr:last-child td {
     border-bottom: none;
 }
 
-/* 强调文本 */
+/* 强调文本 - 粉色/发光效果 */
 .article-content strong {
-    color: #ffc9e6;
+    color: #ffc9e6; /* 浅粉色 */
     font-weight: 600;
-    text-shadow: 0 0 20px rgba(255, 179, 217, 0.3);
+    text-shadow: 0 0 20px rgba(255, 179, 217, 0.3); /* 粉色发光 */
 }
 
+/* 斜体文本 - 浅蓝色 */
 .article-content em {
-    color: #b5e7ff;
+    color: #b5e7ff; /* 浅蓝色 */
     font-style: italic;
 }
 
-/* 删除线 */
+/* 删除线 - 灰色半透明 */
 .article-content del {
-    color: #8a9ab0;
+    color: #8a9ab0; /* 灰蓝色 */
     text-decoration: line-through;
     opacity: 0.7;
 }
 
-/* 任务列表 */
+/* 任务列表复选框 */
 .article-content input[type="checkbox"] {
     margin-right: 8px;
-    accent-color: #ffb3d9;
+    accent-color: #ffb3d9; /* 粉色复选框 */
 }
 
-/* 脚注 */
+/* 脚注上标 */
 .article-content sup {
-    color: #ffb3d9;
+    color: #ffb3d9; /* 粉色 */
 }
 
-/* 键盘按键 */
+/* 键盘按键样式 - 深色背景/浅蓝边框 */
 .article-content kbd {
     display: inline-block;
     padding: 4px 8px;
     font-family: 'Monaco', 'Menlo', monospace;
     font-size: 0.85em;
-    color: #b5e7ff;
+    color: #b5e7ff; /* 浅蓝色 */
     background: linear-gradient(135deg, rgba(20, 27, 46, 0.6), rgba(15, 23, 36, 0.8));
     border: 1px solid rgba(181, 231, 255, 0.2);
     border-radius: 6px;
@@ -781,15 +798,15 @@ input.search-input:focus {
     0 0 0 1px rgba(181, 231, 255, 0.1) inset;
 }
 
-/* 高亮标记 */
+/* 高亮标记 - 粉蓝渐变背景/浅粉色文字 */
 .article-content mark {
     background: linear-gradient(135deg, rgba(255, 179, 217, 0.2), rgba(181, 231, 255, 0.2));
-    color: #ffd6ec;
+    color: #ffd6ec; /* 浅粉色 */
     padding: 2px 6px;
     border-radius: 4px;
 }
 
-/* 细节/摘要 */
+/* 折叠面板样式 */
 .article-content details {
     margin: 1.2em 0;
     padding: 0.8em 1.2em;
@@ -798,9 +815,10 @@ input.search-input:focus {
     border-radius: 10px;
 }
 
+/* 折叠面板标题 - 浅蓝色/悬停变粉色 */
 .article-content summary {
     cursor: pointer;
-    color: #b5e7ff;
+    color: #b5e7ff; /* 浅蓝色 */
     font-weight: 600;
     margin: -0.8em -1.2em 0.8em;
     padding: 0.8em 1.2em;
@@ -811,7 +829,7 @@ input.search-input:focus {
 
 .article-content summary:hover {
     background: rgba(181, 231, 255, 0.08);
-    color: #ffc9e6;
+    color: #ffc9e6; /* 悬停：浅粉色 */
 }
 
 .article-content details[open] summary {
