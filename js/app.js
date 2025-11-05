@@ -27,6 +27,13 @@ const posts = [
         date: '2025-05-11',
         tags: ['音乐', '算法'],
         file: 'posts/2025-05-11-音乐与算法的相遇.md'
+    },
+    {
+        id: 5,
+        title: '当List被多情的Map收养',
+        date: '2025-11-05',
+        tags: ['爱情', '代码'],
+        file: 'posts/2025-11-05-当List被多情的Map收养.md'
     }
 ];
 
