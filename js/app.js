@@ -58,7 +58,7 @@ function applyTheme(theme) {
 
     // 更新按钮图标和文字
     if (theme === 'light') {
-        themeIcon.textContent = '🌙';
+        themeIcon.textContent = '🌑';
         themeBtn.lastChild.textContent = ' 深色';
     } else {
         themeIcon.textContent = '☀️';
