@@ -136,12 +136,18 @@ function renderFilters() {
 
 function renderLatest() {
     const sortedPosts = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
-    latestEl.innerHTML = sortedPosts.slice(0, 3).map(p => `
-                <div class="latest-post">
-                    <div class="latest-post-title">${p.title}</div>
-                    <div class="post-meta">${p.date}</div>
-                </div>
-            `).join('');
+    latestEl.innerHTML = '';
+    sortedPosts.slice(0, 3).forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'latest-post';
+        div.style.cursor = 'pointer';
+        div.innerHTML = `
+            <div class="latest-post-title">${p.title}</div>
+            <div class="post-meta">${p.date}</div>
+        `;
+        div.onclick = () => openPost(p);
+        latestEl.appendChild(div);
+    });
 }
 
 function filter() {
