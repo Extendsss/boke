@@ -469,7 +469,7 @@ input.search-input:focus {
 .modal-content {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 4px;
     max-width: 900px;
     width: 100%;
     max-height: 90vh;
@@ -985,4 +985,24 @@ footer {
     height: 80px;
     margin-bottom: 16px;
     opacity: 0.5;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: var(--glass);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--accent-pink), var(--accent-blue));
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff8fc7, #8dd9ff);
+    box-shadow: 0 0 10px rgba(255, 122, 182, 0.5);
 }
