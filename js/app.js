@@ -96,7 +96,8 @@ function renderPosts(list) {
         postsEl.innerHTML = `
             <div class="empty-state">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 <div style="font-size: 18px; margin-bottom: 8px;">没有找到匹配的文章</div>
                 <div style="font-size: 14px;">试试其他关键词吧~</div>
@@ -116,11 +117,24 @@ function renderPosts(list) {
     });
 }
 
+// ==================== 文章打开功能（带图片备用链接） ====================
 function openPost(post) {
     fetch(post.file)
         .then(res => res.text())
         .then(md => {
-            const html = marked.parse(md);
+            // 🧩 先处理 Markdown 源码，把带 "|" 的图片拆分成主图 + 备用图
+            const processedMd = md.replace(/!\[([^\]]*)\]\(([^|\s]+)\|([^)]+)\)/g, (match, alt, main, backup) => {
+                // 转义防止 XSS
+                const safeAlt = alt.replace(/"/g, '&quot;');
+                const safeMain = main.trim();
+                const safeBackup = backup.trim();
+                return `<img alt="${safeAlt}" src="${safeMain}" data-backup="${safeBackup}"/>`;
+            });
+
+            // 用 marked 渲染（此时双链接已替换成安全 HTML）
+            const html = marked.parse(processedMd);
+
+            // 构造弹窗
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.innerHTML = `
@@ -138,6 +152,17 @@ function openPost(post) {
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
 
+            // 🖼️ 图片加载失败时自动切换备用地址
+            modal.querySelectorAll('.article-content img').forEach(img => {
+                img.onerror = () => {
+                    const backup = img.getAttribute('data-backup');
+                    if (backup && img.src !== backup) {
+                        img.src = backup;
+                    }
+                };
+            });
+
+            // 关闭按钮
             modal.querySelector('.modal-close').onclick = closeModal;
             modal.onclick = (e) => {
                 if (e.target.className === 'modal-overlay') closeModal();
@@ -160,6 +185,7 @@ function closeModal() {
     }
 }
 
+// ==================== 工具函数 ====================
 function uniqueTags(data) {
     const s = new Set();
     data.forEach(p => p.tags.forEach(t => s.add(t)));
