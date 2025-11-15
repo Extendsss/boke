@@ -1157,3 +1157,76 @@ footer {
 }
 
 
+/* 音乐播放按钮动画效果 */
+
+/* 播放中的脉冲动画 */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* 音乐图标旋转动画 */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 音乐图标摇摆动画 */
+@keyframes musicWave {
+    0%, 100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+/* 彩虹渐变动画 */
+@keyframes rainbow {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* 播放中状态样式 */
+#musicBtn.playing {
+    animation: pulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* 播放中图标动画 */
+#musicBtn.playing #musicIcon {
+    display: inline-block;
+    animation: musicWave 0.5s ease-in-out infinite;
+}
+
+/* 按钮悬停效果增强 */
+#musicBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+#musicBtn:active {
+    transform: translateY(0);
+}
+
+/* 音乐图标基础样式 */
+#musicIcon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 1.1em;
+}
