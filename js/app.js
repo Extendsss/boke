@@ -124,7 +124,7 @@ let audio = null;
 let isPlaying = false;
 
 // 音乐URL - 可以替换为你想要的音乐链接
-const musicUrl = 'https:/violet-02.oss-cn-beijing.aliyuncs.com/files/image-20251118163115.mp3';
+const musicUrl = 'https://violet-02.oss-cn-beijing.aliyuncs.com/files/image-20251118163115.mp3';
 
 musicBtn.addEventListener('click', () => {
     if (!audio) {
@@ -150,6 +150,165 @@ musicBtn.addEventListener('click', () => {
         musicBtn.lastChild.textContent = ' 播放中';
     }
 });
+
+// ==================== 联系弹窗功能 ====================
+const contactBtn = document.getElementById('contactBtn');
+let tempFormData = {name: '', email: '', message: ''};
+
+// 打开弹窗
+contactBtn.addEventListener('click', () => {
+    const overlay = document.createElement('div');
+    overlay.id = 'contactOverlay';
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="modal-content" style="max-width: 420px;">
+            <button class="modal-close" id="closeContactBtn">✕</button>
+            <h2 style="margin-bottom: 8px;">给鸽鸽留言 💌</h2>
+            <div class="post-meta" style="margin-bottom: 20px;">大小姐会帮忙转达的~</div>
+            <form id="contactForm">
+                <input type="text" name="name" id="contactName" 
+                       placeholder="你的昵称" 
+                       value="${tempFormData.name}"
+                       style="width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 14px;" />
+                <input type="email" name="email" id="contactEmail" 
+                       placeholder="邮箱地址(方便回复)" 
+                       value="${tempFormData.email}"
+                       style="width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 14px;" />
+                <textarea name="message" id="contactMessage" 
+                          rows="5" 
+                          placeholder="想对鸽鸽说些什么呢？"
+                          style="width: 100%; padding: 10px 12px; margin-bottom: 16px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 14px; resize: vertical; font-family: inherit;">${tempFormData.message}</textarea>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn" id="cancelBtn">取消</button>
+                    <button type="submit" class="btn primary" id="submitBtn">发送</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('contactName');
+    const emailInput = document.getElementById('contactEmail');
+    const messageInput = document.getElementById('contactMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const closeBtn = document.getElementById('closeContactBtn');
+
+    // 实时保存输入
+    nameInput.oninput = () => tempFormData.name = nameInput.value;
+    emailInput.oninput = () => tempFormData.email = emailInput.value;
+    messageInput.oninput = () => tempFormData.message = messageInput.value;
+
+    // 提交表单
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+
+        // 任意一项不为空即可发送
+        if (!name && !email && !message) {
+            showToast('至少写一点点嘛~', 'warning');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '发送中...';
+
+        fetch('https://formspree.io/f/xdkbarpj', {
+            method: 'POST',
+            headers: {'Accept': 'application/json'},
+            body: new FormData(form)
+        })
+            .then(response => {
+                if (response.ok) {
+                    showToast('留言已经飞进邮箱啦！💝', 'success');
+                    tempFormData = {name: '', email: '', message: ''};
+                    setTimeout(() => closeContact(true), 1500);
+                } else {
+                    throw new Error('发送失败');
+                }
+            })
+            .catch(() => {
+                showToast('似乎有点小状况，再试一次好不好？😢', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送';
+            });
+    });
+
+    // 取消/关闭按钮
+    cancelBtn.onclick = () => closeContact(false);
+    closeBtn.onclick = () => closeContact(false);
+    overlay.onclick = (e) => {
+        if (e.target.id === 'contactOverlay') closeContact(false);
+    };
+});
+
+// 关闭弹窗（静默发送未完成的留言）
+function closeContact(skipSend) {
+    const overlay = document.getElementById('contactOverlay');
+    if (!overlay) return;
+
+    const hasContent = tempFormData.name.trim() ||
+        tempFormData.email.trim() ||
+        tempFormData.message.trim();
+
+    // 如果有内容且不是成功提交后关闭，静默发送
+    if (!skipSend && hasContent) {
+        const formData = new FormData();
+        formData.append('name', tempFormData.name || '匿名用户');
+        formData.append('email', tempFormData.email || '未提供');
+        formData.append('message', tempFormData.message || '（未完成的留言）');
+
+        fetch('https://formspree.io/f/xdkbarpj', {
+            method: 'POST',
+            headers: {'Accept': 'application/json'},
+            body: formData
+        }).catch(() => console.log('静默发送失败'));
+    }
+
+    overlay.style.animation = 'fadeIn 0.2s ease reverse';
+    setTimeout(() => {
+        overlay.remove();
+        document.body.style.overflow = '';
+    }, 200);
+}
+
+// 美化的提示消息
+function showToast(message, type = 'info') {
+    const colors = {
+        success: '#10b981',
+        error: '#ef4444',
+        warning: '#f59e0b',
+        info: '#3b82f6'
+    };
+
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 14px 20px;
+        background: ${colors[type]};
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        z-index: 10001;
+        font-size: 14px;
+        font-weight: 500;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
 // ==================== 文章渲染功能 ====================
 function renderPosts(list) {
