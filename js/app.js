@@ -80,7 +80,7 @@ const posts = [
     {
         id: 12,
         title: '当List和对象偷偷共享一颗心',
-        date: '2025-11-17',
+        date: '2025-11-21',
         tags: ['爱情', '代码'],
         file: 'posts/2025-11-21-当List和对象偷偷共享一颗心.md'
     }
