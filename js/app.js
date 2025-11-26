@@ -167,7 +167,7 @@ musicBtn.addEventListener('click', () => {
 
 // ==================== 联系弹窗功能（增强版）====================
 const contactBtn = document.getElementById('contactBtn');
-let tempFormData = {name: '', email: '', message: ''};
+let tempFormData = {name: '', contact: '', message: ''};
 
 // 打开弹窗
 contactBtn.addEventListener('click', () => {
@@ -208,12 +208,12 @@ contactBtn.addEventListener('click', () => {
                     </div>
                     
                     <div class="form-group">
-                        <label for="contactEmail" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; opacity: 0.8;">邮箱地址</label>
+                        <label for="contactEmail" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; opacity: 0.8;">联系方式</label>
                         <div class="input-wrapper">
                             <span class="input-icon">📧</span>
                             <input type="email" name="email" id="contactEmail" 
                                    placeholder="方便收到鸽鸽的回信哦" 
-                                   value="${tempFormData.email}"
+                                   value="${tempFormData.contact}"
                                    class="enhanced-input" />
                         </div>
                     </div>
@@ -435,7 +435,7 @@ contactBtn.addEventListener('click', () => {
 
     // 实时保存输入
     nameInput.oninput = () => tempFormData.name = nameInput.value;
-    emailInput.oninput = () => tempFormData.email = emailInput.value;
+    emailInput.oninput = () => tempFormData.contact = emailInput.value;
     messageInput.oninput = () => {
         tempFormData.message = messageInput.value;
         updateCharCount();
@@ -447,11 +447,11 @@ contactBtn.addEventListener('click', () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
+        const contact = emailInput.value.trim();
         const message = messageInput.value.trim();
 
         // 任意一项不为空即可发送
-        if (!name && !email && !message) {
+        if (!name && !contact && !message) {
             showToast('至少写一点点嘛~ 💭', 'warning');
             return;
         }
@@ -478,7 +478,7 @@ contactBtn.addEventListener('click', () => {
             .then(response => {
                 if (response.ok) {
                     showToast('留言已经飞进邮箱啦！💝', 'success');
-                    tempFormData = {name: '', email: '', message: ''};
+                    tempFormData = {name: '', contact: '', message: ''};
                     setTimeout(() => closeContact(true), 1500);
                 } else {
                     throw new Error('发送失败');
@@ -510,16 +510,14 @@ function closeContact(skipSend) {
     if (!overlay) return;
 
     const hasContent = tempFormData.name.trim() ||
-        tempFormData.email.trim() ||
+        tempFormData.contact.trim() ||
         tempFormData.message.trim();
 
     // 如果有内容且不是成功提交后关闭，静默发送
     if (!skipSend && hasContent) {
         const formData = new FormData();
         formData.append('name', tempFormData.name || '匿名用户');
-        if (tempFormData.email) {
-            formData.append('email', tempFormData.email);
-        }
+        formData.append('contact', tempFormData.contact || '未提供');
         formData.append('message', tempFormData.message || '（未完成的留言）');
 
         fetch('https://formspree.io/f/xdkbarpj', {
