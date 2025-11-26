@@ -503,7 +503,9 @@ function closeContact(skipSend) {
     if (!skipSend && hasContent) {
         const formData = new FormData();
         formData.append('name', tempFormData.name || '匿名用户');
-        formData.append('email', tempFormData.email || '未提供');
+        if (tempFormData.email) {
+            formData.append('email', tempFormData.email);
+        }
         formData.append('message', tempFormData.message || '（未完成的留言）');
 
         fetch('https://formspree.io/f/xdkbarpj', {
