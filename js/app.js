@@ -829,7 +829,7 @@ contactBtn.addEventListener('click', () => {
             }).catch(() => {});
 
             // 显示提示
-            showToast('留言已自动保存，可继续编辑~ 💌', 'info');
+            // showToast('留言已自动保存，可继续编辑~ 💌', 'info');
         }
 
         // 执行关闭动画
