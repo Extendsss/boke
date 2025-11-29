@@ -138,7 +138,7 @@ let audio = null;
 let isPlaying = false;
 
 // 音乐URL - 可以替换为你想要的音乐链接
-const musicUrl = 'https://violet-02.oss-cn-beijing.aliyuncs.com/files/image-20251118163115.mp3';
+const musicUrl = 'https://violet-02.oss-cn-beijing.aliyuncs.com/files/20251129112738139.wav';
 
 musicBtn.addEventListener('click', () => {
     if (!audio) {
