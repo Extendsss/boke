@@ -90,6 +90,13 @@ const posts = [
         date: '2025-12-10',
         tags: ['爱情', '代码'],
         file: 'posts/2025-12-10-当异步任务学会温柔告别.md'
+    },
+    {
+        id: 14,
+        title: 'MyBatis 与 “1”的误会',
+        date: '2026-01-05',
+        tags: ['爱情', '代码'],
+        file: 'posts/2026-01-05-MyBatis与“1”的误会.md'
     }
 ];
 
