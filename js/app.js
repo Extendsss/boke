@@ -93,7 +93,7 @@ const posts = [
     },
     {
         id: 14,
-        title: 'MyBatis 与 “1”的误会',
+        title: 'MyBatis 与 “1” 的误会',
         date: '2026-01-05',
         tags: ['爱情', '代码'],
         file: 'posts/2026-01-05-MyBatis与“1”的误会.md'
