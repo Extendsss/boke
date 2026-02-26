@@ -840,7 +840,8 @@ contactBtn.addEventListener('click', () => {
                 method: 'POST',
                 headers: {'Accept': 'application/json'},
                 body: formData
-            }).catch(() => {});
+            }).catch(() => {
+            });
 
             // 显示提示
             // showToast('留言已自动保存，可继续编辑~ 💌', 'info');
@@ -1131,6 +1132,25 @@ function filter() {
 function initPosts() {
     renderPosts(posts.slice(0, 4));
 }
+
+
+// ==================== 落花特效开关 ====================
+var petalsBtn = document.getElementById("petalsBtn");
+var petalsOn = false;
+
+petalsBtn.addEventListener("click", function () {
+
+    if (!petalsOn) {
+        startSakura();
+        petalsBtn.innerText = "🌸 关花";
+        petalsOn = true;
+    } else {
+        stopp();
+        petalsBtn.innerText = "🌸 落花";
+        petalsOn = false;
+    }
+
+});
 
 // ==================== 事件监听 ====================
 document.getElementById('clear').onclick = () => {

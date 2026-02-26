@@ -183,7 +183,8 @@ window.onresize = function () {
     var canvasSnow = document.getElementById('canvas_snow');
 }
 img.onload = function () {
-    startSakura();
+    // 关闭自启动
+    // startSakura();
 }
 
 function stopp() {
