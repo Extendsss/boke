@@ -1138,6 +1138,172 @@ footer {
     animation: fadeOut 0.3s ease forwards;
 }
 
+/* ===== 常用工具类悬浮组件 ===== */
+.tools-fab-wrap {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* 弹出菜单 — 与 .sidebar-card 同风格 */
+.tools-menu {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px;
+    min-width: 240px;
+    box-shadow: inset 0 0 1px rgba(255,255,255,0.2), 0 8px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    backdrop-filter: blur(10px);
+
+    /* 默认收起 */
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.34,1.56,0.64,1),
+    transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    transform-origin: bottom right;
+}
+
+.tools-menu.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* 菜单标题 */
+.tools-menu-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 8px 12px 4px;
+    letter-spacing: 0.08em;
+    font-family: 'Noto Serif SC', serif;
+    text-transform: uppercase;
+}
+
+/* 每条工具链接 */
+.tools-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* hover 时顶部渐变装饰线（与 post-card 风格一致） */
+.tools-menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 2px 2px 0 0;
+}
+
+.tools-menu-item:hover::before {
+    transform: scaleX(1);
+}
+
+.tools-menu-item:hover {
+    background: var(--hover);
+    transform: translateX(-3px);
+    color: var(--accent-pink);
+}
+
+.tools-menu-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.tools-menu-item:hover .tools-menu-icon {
+    transform: scale(1.15);
+}
+
+.tools-menu-text {
+    flex: 1;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+}
+
+.tools-menu-arrow {
+    color: var(--text-muted);
+    font-size: 13px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.tools-menu-item:hover .tools-menu-arrow {
+    transform: translateX(4px);
+    color: var(--accent-pink);
+}
+
+/* 悬浮按钮 — 与 .btn.primary 同风格 */
+.tools-fab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-blue));
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255, 122, 182, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Noto Serif SC', serif;
+}
+
+.tools-fab:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(255, 122, 182, 0.45);
+}
+
+.tools-fab.active {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+}
+
+.tools-fab-icon {
+    font-size: 18px;
+}
+
+/* 移动端 */
+@media (max-width: 480px) {
+    .tools-fab-wrap {
+        bottom: 20px;
+        right: 16px;
+    }
+    .tools-fab {
+        padding: 14px;
+        border-radius: 50%;
+    }
+    .tools-fab-label {
+        display: none;
+    }
+    .tools-menu {
+        min-width: 210px;
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

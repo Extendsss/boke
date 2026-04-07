@@ -1173,6 +1173,19 @@ qEl.addEventListener('keydown', e => {
     if (e.key === 'Enter') filter();
 });
 
+const fab = document.getElementById('toolsFab');
+const menu = document.getElementById('toolsMenu');
+fab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.classList.toggle('open');
+    fab.classList.toggle('active');
+});
+document.addEventListener('click', () => {
+    menu.classList.remove('open');
+    fab.classList.remove('active');
+});
+menu.addEventListener('click', e => e.stopPropagation());
+
 // ==================== 初始化 ====================
 renderFilters();
 renderLatest();
