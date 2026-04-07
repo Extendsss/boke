@@ -1396,3 +1396,16 @@ footer {
     transition: transform 0.3s ease;
     font-size: 1.1em;
 }
+
+/* ===== 鸽鸽互动头像覆盖样式 ===== */
+#logoAvatar {
+    background: linear-gradient(145deg, #fff0f6 0%, #ece8ff 100%) !important;
+    box-shadow: 0 8px 32px rgba(255, 122, 182, 0.22) !important;
+    overflow: visible;
+    cursor: default;
+    padding: 0;
+}
+
+#logoAvatar:hover {
+    transform: translateY(-3px) !important; /* 去掉原有旋转 */
+}

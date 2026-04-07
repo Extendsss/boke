@@ -1190,3 +1190,229 @@ menu.addEventListener('click', e => e.stopPropagation());
 renderFilters();
 renderLatest();
 initPosts();
+
+// ==================== 鸽鸽 Logo 互动头像 ====================
+(function () {
+    const logo = document.getElementById('logoAvatar');
+    if (!logo) return;
+
+    // ── SVG 结构 ──────────────────────────────────────────────
+    logo.innerHTML = `
+<svg id="geSvg" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"
+     style="width:60px;height:60px;overflow:visible;display:block">
+
+  <!-- 耳朵（bilibili 兔耳风格） -->
+  <ellipse cx="16" cy="9"  rx="6"   ry="9.5" fill="#ffc8e0"/>
+  <ellipse cx="16" cy="9"  rx="3.2" ry="6"   fill="#ff9ec4"/>
+  <ellipse cx="44" cy="9"  rx="6"   ry="9.5" fill="#ffc8e0"/>
+  <ellipse cx="44" cy="9"  rx="3.2" ry="6"   fill="#ff9ec4"/>
+
+  <!-- 脸 -->
+  <circle cx="30" cy="33" r="23" fill="#fff7fb" stroke="#f5d5e8" stroke-width="0.8"/>
+
+  <!-- 腮红 -->
+  <ellipse id="blushL" cx="13.5" cy="38" rx="5.5" ry="3"   fill="#ffb3ce" opacity="0.55"/>
+  <ellipse id="blushR" cx="46.5" cy="38" rx="5.5" ry="3"   fill="#ffb3ce" opacity="0.55"/>
+
+  <!-- 左眼眶 -->
+  <circle cx="21" cy="31" r="7.5" fill="white" stroke="#f0d0e0" stroke-width="0.8"/>
+  <!-- 左眼（追踪状态：瞳孔+高光） -->
+  <g id="leftOpen">
+    <circle id="lPupil" cx="21" cy="31" r="4.8" fill="#1e1a30"/>
+    <circle id="lShine" cx="23" cy="29" r="1.9"  fill="white"/>
+    <circle             cx="19.5" cy="33" r="1.1" fill="white" opacity="0.5"/>
+  </g>
+  <!-- 左眼（开心状态：弯月形） -->
+  <path id="leftHappy" d="M14 31 Q21 24 28 31"
+        fill="none" stroke="#1e1a30" stroke-width="2.2" stroke-linecap="round" display="none"/>
+
+  <!-- 右眼眶 -->
+  <circle cx="39" cy="31" r="7.5" fill="white" stroke="#f0d0e0" stroke-width="0.8"/>
+  <!-- 右眼（追踪状态） -->
+  <g id="rightOpen">
+    <circle id="rPupil" cx="39" cy="31" r="4.8" fill="#1e1a30"/>
+    <circle id="rShine" cx="41" cy="29" r="1.9"  fill="white"/>
+    <circle             cx="37.5" cy="33" r="1.1" fill="white" opacity="0.5"/>
+  </g>
+  <!-- 右眼（开心状态） -->
+  <path id="rightHappy" d="M32 31 Q39 24 46 31"
+        fill="none" stroke="#1e1a30" stroke-width="2.2" stroke-linecap="round" display="none"/>
+
+  <!-- 鼻子 -->
+  <ellipse cx="30" cy="37.5" rx="2.2" ry="1.5" fill="#ffadd2"/>
+
+  <!-- 嘴巴：普通 -->
+  <path id="mouthN" d="M26 41.5 Q30 45   34 41.5"
+        fill="none" stroke="#e070a0" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- 嘴巴：大笑 -->
+  <path id="mouthH" d="M24 41   Q30 47.5 36 41"
+        fill="none" stroke="#e070a0" stroke-width="1.8" stroke-linecap="round" display="none"/>
+
+  <!-- 左爪（捂左眼，输入框在 logo 右侧时显示） -->
+  <g id="leftPaw" display="none">
+    <ellipse cx="21" cy="30" rx="10.5" ry="9" fill="#ffd5e8" stroke="#ffb3ce" stroke-width="1.2"/>
+    <circle cx="14.5" cy="23"  r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+    <circle cx="21"   cy="21.5" r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+    <circle cx="27.5" cy="23"  r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+  </g>
+
+  <!-- 右爪（捂右眼，输入框在 logo 左侧时显示） -->
+  <g id="rightPaw" display="none">
+    <ellipse cx="39" cy="30" rx="10.5" ry="9" fill="#ffd5e8" stroke="#ffb3ce" stroke-width="1.2"/>
+    <circle cx="32.5" cy="23"  r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+    <circle cx="39"   cy="21.5" r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+    <circle cx="45.5" cy="23"  r="2.8" fill="#ffc0dd" stroke="#ffb3ce" stroke-width="0.8"/>
+  </g>
+</svg>`;
+
+    // ── 元素引用 ───────────────────────────────────────────────
+    const svg        = document.getElementById('geSvg');
+    const lPupil     = document.getElementById('lPupil');
+    const rPupil     = document.getElementById('rPupil');
+    const lShine     = document.getElementById('lShine');
+    const rShine     = document.getElementById('rShine');
+    const leftOpen   = document.getElementById('leftOpen');
+    const rightOpen  = document.getElementById('rightOpen');
+    const leftHappy  = document.getElementById('leftHappy');
+    const rightHappy = document.getElementById('rightHappy');
+    const mouthN     = document.getElementById('mouthN');
+    const mouthH     = document.getElementById('mouthH');
+    const leftPaw    = document.getElementById('leftPaw');
+    const rightPaw   = document.getElementById('rightPaw');
+    const blushL     = document.getElementById('blushL');
+    const blushR     = document.getElementById('blushR');
+
+    // ── 眼睛中心 & 最大偏移 ────────────────────────────────────
+    const L = { x: 21, y: 31, max: 2.5 };
+    const R = { x: 39, y: 31, max: 2.5 };
+
+    // ── 状态 & 插值变量 ────────────────────────────────────────
+    let state  = 'tracking';
+    let mouseX = window.innerWidth  / 2;
+    let mouseY = window.innerHeight / 2;
+    let lx = L.x, ly = L.y;
+    let rx = R.x, ry = R.y;
+
+    // ── 工具函数 ───────────────────────────────────────────────
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const show = el => el.removeAttribute('display');
+    const hide = el => el.setAttribute('display', 'none');
+
+    /** 鼠标客户端坐标 → SVG 坐标系 */
+    function toSvg(cx, cy) {
+        const r = svg.getBoundingClientRect();
+        return {
+            x: (cx - r.left) * (60 / r.width),
+            y: (cy - r.top)  * (60 / r.height)
+        };
+    }
+
+    /** 计算瞳孔目标坐标（限制在最大偏移圆内） */
+    function clamp(eye, tx, ty) {
+        const dx = tx - eye.x, dy = ty - eye.y;
+        const d  = Math.hypot(dx, dy) || 1;
+        const s  = Math.min(d, eye.max) / d;
+        return { x: eye.x + dx * s, y: eye.y + dy * s };
+    }
+
+    // ── 三种状态切换 ───────────────────────────────────────────
+    function setTracking() {
+        show(leftOpen);  show(rightOpen);
+        hide(leftHappy); hide(rightHappy);
+        show(mouthN);    hide(mouthH);
+        hide(leftPaw);   hide(rightPaw);
+        blushL.setAttribute('opacity', '0.55');
+        blushR.setAttribute('opacity', '0.55');
+    }
+
+    function setHover() {
+        hide(leftOpen);  hide(rightOpen);
+        show(leftHappy); show(rightHappy);
+        hide(mouthN);    show(mouthH);
+        hide(leftPaw);   hide(rightPaw);
+        blushL.setAttribute('opacity', '0.88');
+        blushR.setAttribute('opacity', '0.88');
+    }
+
+    /**
+     * @param {boolean} coverLeft
+     *   true  → 捂左眼（输入框在 logo 右侧，远离左眼）
+     *   false → 捂右眼（输入框在 logo 左侧，远离右眼）
+     */
+    function setTyping(coverLeft) {
+        if (coverLeft) {
+            hide(leftOpen);  show(leftPaw);
+            show(rightOpen); hide(rightPaw);
+        } else {
+            show(leftOpen);  hide(leftPaw);
+            hide(rightOpen); show(rightPaw);
+        }
+        hide(leftHappy); hide(rightHappy);
+        show(mouthN);    hide(mouthH);
+        blushL.setAttribute('opacity', '0.72');
+        blushR.setAttribute('opacity', '0.72');
+    }
+
+    // ── 动画主循环（瞳孔平滑跟随） ────────────────────────────
+    function tick() {
+        if (state === 'tracking') {
+            const p  = toSvg(mouseX, mouseY);
+            const lt = clamp(L, p.x, p.y);
+            const rt = clamp(R, p.x, p.y);
+
+            lx = lerp(lx, lt.x, 0.14);
+            ly = lerp(ly, lt.y, 0.14);
+            rx = lerp(rx, rt.x, 0.14);
+            ry = lerp(ry, rt.y, 0.14);
+
+            lPupil.setAttribute('cx', lx.toFixed(2));
+            lPupil.setAttribute('cy', ly.toFixed(2));
+            lShine.setAttribute('cx', (lx + 2).toFixed(2));
+            lShine.setAttribute('cy', (ly - 2).toFixed(2));
+
+            rPupil.setAttribute('cx', rx.toFixed(2));
+            rPupil.setAttribute('cy', ry.toFixed(2));
+            rShine.setAttribute('cx', (rx + 2).toFixed(2));
+            rShine.setAttribute('cy', (ry - 2).toFixed(2));
+        }
+        requestAnimationFrame(tick);
+    }
+
+    // ── 事件绑定 ───────────────────────────────────────────────
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // 鼠标悬停 logo → 开心表情
+    logo.addEventListener('mouseenter', () => {
+        state = 'hover';
+        setHover();
+    });
+    logo.addEventListener('mouseleave', () => {
+        if (state !== 'typing') {
+            state = 'tracking';
+            setTracking();
+        }
+    });
+
+    // 用事件委托捕获动态弹窗里的 input（如联系留言框）
+    document.addEventListener('focusin', e => {
+        if (!e.target.matches('input, textarea')) return;
+        state = 'typing';
+        const ir = e.target.getBoundingClientRect();
+        const lr = logo.getBoundingClientRect();
+        // 输入框中心在 logo 右侧 → 远离一侧是左眼 → 捂左眼
+        setTyping((ir.left + ir.width / 2) > (lr.left + lr.width / 2));
+    });
+
+    document.addEventListener('focusout', e => {
+        if (!e.target.matches('input, textarea')) return;
+        state = 'tracking';
+        setTracking();
+    });
+
+    // ── 初始化 ─────────────────────────────────────────────────
+    setTracking();
+    requestAnimationFrame(tick);
+}());
