@@ -186,8 +186,9 @@ musicBtn.addEventListener('click', () => {
     }
 });
 
-// ==================== 联系弹窗功能（增强版 - 取消时自动发送）====================
+// ==================== 联系弹窗功能 ====================
 const contactBtn = document.getElementById('contactBtn');
+const contactFormEndpoint = 'https://formspree.io/f/xdkbarpj';
 let tempFormData = {name: '', contact: '', message: ''};
 
 // 打开弹窗
@@ -227,8 +228,8 @@ contactBtn.addEventListener('click', () => {
                         <div class="input-wrapper">
                             <span class="input-icon">👤</span>
                             <input type="text" name="name" id="contactName" 
-                                   placeholder="给自己取个可爱的名字吧" 
-                                   value="${tempFormData.name}"
+                                   placeholder="给自己取个可爱的名字吧"
+                                   maxlength="80"
                                    class="enhanced-input" />
                             <div class="input-border-glow"></div>
                         </div>
@@ -239,8 +240,8 @@ contactBtn.addEventListener('click', () => {
                         <div class="input-wrapper">
                             <span class="input-icon">📧</span>
                             <input type="text" name="contact" id="contactInfo" 
-                                   placeholder="方便收到鸽鸽的回信哦" 
-                                   value="${tempFormData.contact}"
+                                   placeholder="方便收到鸽鸽的回信哦"
+                                   maxlength="160"
                                    class="enhanced-input" />
                             <div class="input-border-glow"></div>
                         </div>
@@ -250,13 +251,16 @@ contactBtn.addEventListener('click', () => {
                         <label for="contactMessage" class="form-label">留言内容</label>
                         <div class="input-wrapper">
                             <textarea name="message" id="contactMessage" 
-                                      rows="5" 
+                                      rows="5"
+                                      maxlength="2000"
                                       placeholder="想对鸽鸽说些什么呢？尽管写下来吧~ 💭"
-                                      class="enhanced-textarea">${tempFormData.message}</textarea>
+                                      class="enhanced-textarea"></textarea>
                             <div class="input-border-glow"></div>
                         </div>
                         <div class="char-count" id="charCount">0 字</div>
                     </div>
+
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" hidden />
                     
                     <div class="button-group fade-in" style="animation-delay: 0.4s;">
                         <button type="button" class="btn enhanced-btn secondary" id="cancelBtn">
@@ -754,8 +758,10 @@ contactBtn.addEventListener('click', () => {
     const cancelBtn = document.getElementById('cancelBtn');
     const closeBtn = document.getElementById('closeContactBtn');
 
-    // 标记是否正常提交
-    let isSubmitted = false;
+    // 使用属性赋值恢复草稿，避免把用户输入拼接回 HTML。
+    nameInput.value = tempFormData.name;
+    contactInput.value = tempFormData.contact;
+    messageInput.value = tempFormData.message;
 
     // 字符计数动画
     const updateCharCount = () => {
@@ -782,7 +788,7 @@ contactBtn.addEventListener('click', () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = nameInput.value.trim();
-        const contact = emailInput.value.trim();
+        const contact = contactInput.value.trim();
         const message = messageInput.value.trim();
 
         if (!name && !contact && !message) {
@@ -800,14 +806,15 @@ contactBtn.addEventListener('click', () => {
             </svg>
         `;
 
-        fetch('https://formspree.io/f/xdkbarpj', {
+        fetch(contactFormEndpoint, {
             method: 'POST',
             headers: {'Accept': 'application/json'},
-            body: new FormData(form)
+            body: new FormData(form),
+            credentials: 'omit',
+            referrerPolicy: 'no-referrer'
         })
             .then(response => {
                 if (response.ok) {
-                    isSubmitted = true;
                     showToast('留言已经飞进邮箱啦！💝', 'success');
                     tempFormData = {name: '', contact: '', message: ''};
                     setTimeout(() => closeContact(), 1500);
@@ -830,29 +837,8 @@ contactBtn.addEventListener('click', () => {
 
     // 关闭弹窗函数
     const closeContact = () => {
-        // 检查是否有未提交的内容
-        const hasContent = tempFormData.name.trim() ||
-            tempFormData.contact.trim() ||
-            tempFormData.message.trim();
-
-        // 如果有内容且不是正常提交,则静默发送
-        if (!isSubmitted && hasContent) {
-            const formData = new FormData();
-            formData.append('name', tempFormData.name || '匿名用户');
-            formData.append('contact', tempFormData.contact || '未提供');
-            formData.append('message', tempFormData.message || '（用户取消前填写的内容）');
-
-            // 静默发送,不阻塞关闭动画
-            fetch('https://formspree.io/f/xdkbarpj', {
-                method: 'POST',
-                headers: {'Accept': 'application/json'},
-                body: formData
-            }).catch(() => {
-            });
-
-            // 显示提示
-            // showToast('留言已自动保存，可继续编辑~ 💌', 'info');
-        }
+        // 取消或关闭就是丢弃草稿，不产生任何网络请求。
+        tempFormData = {name: '', contact: '', message: ''};
 
         // 执行关闭动画
         overlay.style.animation = 'fadeOut 0.3s ease forwards';
@@ -861,8 +847,6 @@ contactBtn.addEventListener('click', () => {
         setTimeout(() => {
             document.body.removeChild(overlay);
             document.body.style.overflow = '';
-            // 重置提交状态
-            isSubmitted = false;
         }, 300);
     };
 
@@ -969,10 +953,14 @@ function renderPosts(list) {
 // ==================== 文章打开功能（带图片备用链接） ====================
 function openPost(post) {
     fetch(post.file)
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.text();
+        })
         .then(md => {
+            const markdownWithProtectedBlocks = BokeSecurity.injectProtectedPlaceholders(md);
             // 支持主图|备用图语法
-            const processedMd = md.replace(/!\[([^\]]*)\]\(([^|\s]+)\|([^)]+)\)/g, (match, alt, main, backup) => {
+            const processedMd = markdownWithProtectedBlocks.replace(/!\[([^\]]*)\]\(([^|\s]+)\|([^)]+)\)/g, (match, alt, main, backup) => {
                 const safeAlt = alt.replace(/"/g, '&quot;');
                 const safeMain = main.trim();
                 const safeBackup = backup.trim();
@@ -990,7 +978,7 @@ function openPost(post) {
                         </div>`;
             });
 
-            const html = marked.parse(processedMd);
+            const html = BokeSecurity.sanitizeMarkdownHtml(marked.parse(processedMd));
 
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
@@ -1002,23 +990,26 @@ function openPost(post) {
                     <hr>
                     <div class="article-content">${html}</div>
                     <div style="text-align: right; margin-top: 48px">
-                        <button class="btn primary" onclick="closeModal()">关 闭</button>
+                        <button class="btn primary article-close-button">关 闭</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
+            BokeSecurity.hydrateProtectedBlocks(modal.querySelector('.article-content'));
 
             // 图片加载、备用切换
             modal.querySelectorAll('.article-content img').forEach(img => {
                 const wrapper = img.closest('.img-wrapper');
-                const loader = wrapper.querySelector('.img-loader');
+                const loader = wrapper?.querySelector('.img-loader');
                 img.style.opacity = '0';
                 img.style.transition = 'opacity 0.6s ease';
 
                 img.addEventListener('load', () => {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 400);
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        setTimeout(() => loader.remove(), 400);
+                    }
                     img.style.opacity = '1';
                 });
 
@@ -1031,7 +1022,7 @@ function openPost(post) {
                             img.src = backup;
                         }, 200);
                     } else {
-                        loader.remove();
+                        loader?.remove();
                         img.replaceWith(Object.assign(document.createElement('div'), {
                             textContent: '（图片加载失败了~）',
                             style: 'text-align:center;color:#999;font-size:14px;margin:12px 0;'
@@ -1046,12 +1037,16 @@ function openPost(post) {
                 img.addEventListener('click', () => {
                     const preview = document.createElement('div');
                     preview.className = 'img-preview-overlay';
-                    preview.innerHTML = `
-                        <div class="img-preview-content">
-                            <img src="${img.src}" alt="${img.alt}">
-                            <span class="img-preview-close">✕</span>
-                        </div>
-                    `;
+                    const previewContent = document.createElement('div');
+                    previewContent.className = 'img-preview-content';
+                    const previewImage = document.createElement('img');
+                    previewImage.src = img.src;
+                    previewImage.alt = img.alt;
+                    const previewClose = document.createElement('span');
+                    previewClose.className = 'img-preview-close';
+                    previewClose.textContent = '✕';
+                    previewContent.append(previewImage, previewClose);
+                    preview.appendChild(previewContent);
                     document.body.appendChild(preview);
                     document.body.style.overflow = 'hidden';
 
@@ -1068,6 +1063,7 @@ function openPost(post) {
             });
 
             modal.querySelector('.modal-close').onclick = closeModal;
+            modal.querySelector('.article-close-button').onclick = closeModal;
             modal.onclick = (e) => {
                 if (e.target.className === 'modal-overlay') closeModal();
             };

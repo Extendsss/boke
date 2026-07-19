@@ -556,7 +556,7 @@ input.search-input:focus {
     font-size: 14px; /* 正文字号 */
     line-height: 1.75; /* 行高 */
     color: var(--text-primary); /* 正文颜色 */
-    letter-spacing: 0.1px; /* 字间距 */
+    letter-spacing: 0;
 }
 
 /* 标题通用样式 */
@@ -686,6 +686,124 @@ input.search-input:focus {
     display: block;
     margin-top: 30px;
     box-shadow: none;
+}
+
+/* 口令解锁的加密代码块 */
+.protected-block {
+    margin: 1.5em 0;
+    padding: 18px;
+    min-height: 132px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 8px;
+}
+
+.protected-block__header {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.protected-block__title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    color: var(--text-primary);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.protected-block__icon {
+    flex: 0 0 auto;
+    font-size: 16px;
+}
+
+.protected-block__badge {
+    flex: 0 0 auto;
+    padding: 4px 7px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.protected-block__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 88px;
+    gap: 10px;
+    min-height: 42px;
+}
+
+.protected-block__input {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font: inherit;
+}
+
+.protected-block__input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 18%, transparent);
+}
+
+.protected-block__submit {
+    width: 88px;
+    height: 42px;
+    justify-content: center;
+}
+
+.protected-block__status {
+    min-height: 20px;
+    padding-top: 7px;
+    color: var(--accent-pink);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+}
+
+.protected-block__lock {
+    flex: 0 0 auto;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+}
+
+.protected-block__lock:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.protected-block.is-unlocked {
+    padding-bottom: 4px;
+    border-left-color: var(--accent-pink);
+}
+
+.protected-block.is-unlocked .protected-block__header {
+    margin-bottom: 0;
+}
+
+.protected-block.is-unlocked pre {
+    margin-bottom: 0;
 }
 
 /* 列表样式 */
@@ -1001,6 +1119,14 @@ footer {
     .posts-grid {
         grid-template-columns: 1fr;
     }
+
+    .protected-block__form {
+        grid-template-columns: 1fr;
+    }
+
+    .protected-block__submit {
+        width: 100%;
+    }
 }
 
 .empty-state {
@@ -1184,7 +1310,7 @@ footer {
     font-weight: 600;
     color: var(--text-muted);
     padding: 8px 12px 4px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     font-family: 'Noto Serif SC', serif;
     text-transform: uppercase;
 }

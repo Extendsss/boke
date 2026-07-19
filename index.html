@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="strict-origin-when-cross-origin"/>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https:; connect-src 'self' https://formspree.io; object-src 'none'; base-uri 'none'; form-action 'none'"/>
     <title>鸽鸽的纸鸢小筑</title>
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>鸽</text></svg>">
@@ -104,6 +107,8 @@
 <!-- 引入 Markdown 渲染库 -->
 <script src="js/libs/petals.falling.js"></script>
 <script src="js/libs/marked.min.js"></script>
+<script src="js/libs/purify.min.js"></script>
+<script src="js/security.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

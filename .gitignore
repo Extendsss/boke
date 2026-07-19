@@ -1,0 +1,12 @@
+node_modules/
+
+# Local plaintext and runtime secrets must never be committed.
+private-posts/
+*.private.md
+.env
+.env.*
+!.env.example
+
+# IDE-local files (already tracked files are unaffected).
+.idea/
+

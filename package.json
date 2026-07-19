@@ -1,5 +1,12 @@
 {
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "protect": "node scripts/protect-content.mjs",
+    "security:check": "node scripts/check-secrets.mjs",
+    "test": "node --test --test-isolation=none"
+  },
   "dependencies": {
+    "dompurify": "^3.2.6",
     "marked": "^16.4.1"
   }
 }
